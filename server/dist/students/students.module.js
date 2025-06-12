@@ -17,7 +17,9 @@ let StudentsModule = class StudentsModule {
 exports.StudentsModule = StudentsModule;
 exports.StudentsModule = StudentsModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: student_entity_1.Student.name, schema: student_entity_1.StudentSchema }])],
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: student_entity_1.Student.name, schema: student_entity_1.StudentSchema }]),
+        ],
         controllers: [students_controller_1.StudentsController],
         providers: [students_service_1.StudentsService],
     })
