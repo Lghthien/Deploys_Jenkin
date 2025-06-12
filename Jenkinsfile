@@ -41,7 +41,11 @@ pipeline {
             steps {
                 script {
                     // Đăng nhập vào Docker Hub bằng Jenkins credentials
+<<<<<<< HEAD
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+=======
+                    sh "echo "$DOCKER_HUB_PASSWORD" | docker login -u \$DOCKER_HUB_USERNAME --password-stdin"
+>>>>>>> b0a15222cf179fa43d8f0dfd8c37accc423f1da3
                 }
             }
         }
