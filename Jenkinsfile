@@ -3,7 +3,7 @@ pipeline {
     environment {
         DOCKER_BUILDKIT = 1
         DOCKER_HUB_USERNAME = 'legiahoangthien'  // Thay bằng tên người dùng Docker Hub của bạn
-        DOCKER_HUB_PASSWORD = credentials('legiahoangthien-dockerhub') // Đảm bảo bạn đã thêm Docker Hub password vào Jenkins Credentials
+        DOCKERHUB_CREDENTIALS = credentials('legiahoangthien-dockerhub') // Đảm bảo bạn đã thêm Docker Hub password vào Jenkins Credentials
     }
     stages {
         // Stage 1: Clone repository
@@ -41,7 +41,7 @@ pipeline {
             steps {
                 script {
                     // Đăng nhập vào Docker Hub bằng Jenkins credentials
-                    sh "echo \$DOCKER_HUB_PASSWORD | docker login -u \$DOCKER_HUB_USERNAME --password-stdin"
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 }
             }
         }
