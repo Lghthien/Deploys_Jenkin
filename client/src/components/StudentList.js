@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'; // Thay useHistory bằng useNavigate
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import StudentForm from './StudentForm';
 
 const StudentList = () => {
