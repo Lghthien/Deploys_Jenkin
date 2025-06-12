@@ -52,7 +52,7 @@ const StudentPointsPage = () => {
   const [subjectName, setSubjectName] = useState('');
   const [subjectScore, setSubjectScore] = useState('');
   const [loading, setLoading] = useState(false);
-  const [subjectToUpdate, setSubjectToUpdate] = useState(null);
+  // const [subjectToUpdate, setSubjectToUpdate] = useState(null);
 
   const navigate = useNavigate();
 
