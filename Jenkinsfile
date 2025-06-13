@@ -29,8 +29,9 @@ pipeline {
             steps {
                 script {
                     dir('server') {
-                        sh 'npm install'  
-                        sh 'npm run test -- --verbose'  
+                        sh 'npm install'
+                        sh 'chmod +x ./node_modules/.bin/jest' // Cấp quyền thực thi
+                        sh 'npm run test -- --verbose'
                     }
                 }
             }
