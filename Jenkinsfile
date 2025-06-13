@@ -30,7 +30,7 @@ pipeline {
                 script {
                     dir('server') {
                         sh 'npm install'  
-                        sh 'npm run test -- --passWithNoTests'  
+                        sh 'npm run test -- --verbose'  
                     }
                 }
             }
