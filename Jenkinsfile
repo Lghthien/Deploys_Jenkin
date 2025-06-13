@@ -2,11 +2,10 @@ pipeline {
     agent any
     environment {
         DOCKER_BUILDKIT = 1
-        DOCKER_HUB_USERNAME = 'legiahoangthien' 
+        DOCKER_HUB_USERNAME = 'legiahoangthien'
         DOCKERHUB_CREDENTIALS = credentials('legiahoangthien-dockerhub')
     }
     stages {
-        // Stage 1: Clone repository
         stage('Clone') {
             steps {
                 script {
@@ -15,14 +14,24 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('Test Client') {
             steps {
-                withSonarQubeEnv(installationName: 'sq1') {
-                    sh '''
-                    npx sonar-scanner \
-                    -Dsonar.projectKey=Deploys_Jenkin \
-                    -Dsonar.sources=./client,./server \
-                    '''
+                script {
+                    dir('client') {
+                        sh 'npm install'  
+                        sh 'npm run test'
+                    }
+                }
+            }
+        }
+
+        stage('Test Server') {
+            steps {
+                script {
+                    dir('server') {
+                        sh 'npm install'  
+                        sh 'npm run test'  
+                    }
                 }
             }
         }
@@ -46,7 +55,7 @@ pipeline {
         stage('Login to Docker Hub') {
             steps {
                 script {
-                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_USERNAME --password-stdin'
                 }
             }
         }
