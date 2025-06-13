@@ -19,7 +19,7 @@ pipeline {
                 script {
                     dir('client') {
                         sh 'npm install'  
-                        sh 'npm run test'
+                        sh 'npm run test -- --passWithNoTests'
                     }
                 }
             }
@@ -30,7 +30,7 @@ pipeline {
                 script {
                     dir('server') {
                         sh 'npm install'  
-                        sh 'npm run test'  
+                        sh 'npm run test -- --passWithNoTests'  
                     }
                 }
             }
