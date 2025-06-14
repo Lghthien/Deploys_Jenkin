@@ -1,7 +1,7 @@
 services:
   server:
     image: legiahoangthien/nestjs-backend:latest
-    restart: unless-stopped
+    restart: always
     environment:
       - NODE_ENV=development
       - MONGO_URI=mongodb://mongo:27017/mydb
@@ -12,7 +12,7 @@ services:
 
   client:
     image: legiahoangthien/react-frontend:latest
-    restart: unless-stopped
+    restart: always
     environment:
       - NODE_ENV=development
       - API_URL=http://localhost:5000
@@ -23,7 +23,7 @@ services:
 
   mongo:
     image: mongo:6.0
-    restart: unless-stopped
+    restart: always
     ports:
       - "27017:27017"
     volumes:
