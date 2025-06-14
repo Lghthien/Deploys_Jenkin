@@ -1,64 +1,37 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Test, TestingModule } from '@nestjs/testing';
+import { StudentsService } from './students.service';
+import { getModelToken } from '@nestjs/mongoose'; // Sử dụng để mock model trong bài kiểm tra
 import { Student } from './entities/student.entity';
-import { CreateStudentDto } from './dto/create-student.dto';
-import { UpdateStudentDto } from './dto/update-student.dto';
 
-@Injectable()
-export class StudentsService {
-  constructor(@InjectModel(Student.name) private studentModel: Model<Student>) {}
+describe('StudentsService', () => {
+  let service: StudentsService;
 
-  async create(createStudentDto: CreateStudentDto): Promise<Student> {
-    const createdStudent = new this.studentModel(createStudentDto);
-    return createdStudent.save();
-  }
+  // Mô phỏng các phương thức của Mongoose Model
+  const mockStudentModel = {
+    findOne: jest.fn().mockReturnThis(),
+    find: jest.fn().mockReturnThis(),
+    create: jest.fn(),
+    save: jest.fn(),
+    findOneAndUpdate: jest.fn().mockReturnThis(),
+    findOneAndDelete: jest.fn().mockReturnThis(),
+    exec: jest.fn(), // Mock exec để tránh lỗi
+  };
 
-  async findAll(): Promise<Student[]> {
-    return this.studentModel.find().exec();
-  }
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        StudentsService,
+        {
+          provide: getModelToken(Student.name),
+          useValue: mockStudentModel, // Mock model Student
+        },
+      ],
+    }).compile();
 
-  async findOne(id: string): Promise<Student> {
-    const student = await this.studentModel.findOne({ id }).exec();
-    if (!student) {
-      throw new NotFoundException(`Student with ID ${id} not found`);
-    }
-    return student;
-  }
+    service = module.get<StudentsService>(StudentsService);
+  });
 
-  async update(id: string, updateStudentDto: UpdateStudentDto): Promise<Student> {
-    const updatedStudent = await this.studentModel.findOneAndUpdate({ id }, updateStudentDto, { new: true }).exec();
-    if (!updatedStudent) {
-      throw new NotFoundException(`Student with ID ${id} not found`);
-    }
-    return updatedStudent;
-  }
-
-  async remove(id: string): Promise<void> {
-    const result = await this.studentModel.findOneAndDelete({ id }).exec();
-    if (!result) {
-      throw new NotFoundException(`Student with ID ${id} not found`);
-    }
-  }
-
-  async addSubject(id: string, subjectData: { name: string; score: number }): Promise<Student> {
-    const student = await this.studentModel.findOne({ id });
-    if (!student) {
-      throw new NotFoundException(`Student with ID ${id} not found`);
-    }
-    
-    // Thêm môn học vào mảng subjects
-    student.subjects.push(subjectData);
-
-    // Tính lại GPA sau khi thêm môn học mới
-    const totalScore = student.subjects.reduce((sum, subject) => sum + subject.score, 0);
-    const GPA = totalScore / student.subjects.length;
-
-    // Cập nhật lại GPA
-    student.GPA = GPA;
-
-    // Lưu lại sinh viên với thông tin mới
-    await student.save();
-    return student;
-  }
-}
+  it('should be defined', () => {
+    expect(service).toBeDefined(); // Kiểm tra xem service có được khởi tạo không
+  });
+});

@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Student extends Document {
-   @Prop({ required: true })
+  @Prop({ required: true })
   declare id: string;
 
   @Prop({ required: true })
@@ -12,11 +12,11 @@ export class Student extends Document {
   @Prop({ required: true })
   major: string;
 
-  @Prop({ required: false})
+  @Prop({ required: false })
   GPA: number;
-  
-  @Prop({ required: false})
-  subjects: { name: string, score: number }[]; 
+
+  @Prop({ required: false })
+  subjects: { name: string; score: number }[];
 }
 
 export const StudentSchema = SchemaFactory.createForClass(Student);
