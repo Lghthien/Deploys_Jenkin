@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
@@ -41,10 +33,7 @@ export class StudentsController {
   }
 
   @Patch(':id/subjects')
-  addSubject(
-    @Param('id') id: string,
-    @Body() subjectData: { name: string; score: number },
-  ) {
+  addSubject(@Param('id') id: string, @Body() subjectData: { name: string; score: number }) {
     return this.studentsService.addSubject(id, subjectData);
   }
 
@@ -52,20 +41,13 @@ export class StudentsController {
   updateSubjectScore(
     @Param('id') id: string,
     @Param('subjectName') subjectName: string,
-    @Body() newScore: { score: number },
+    @Body() newScore: { score: number }
   ) {
-    return this.studentsService.updateSubjectScore(
-      id,
-      subjectName,
-      newScore.score,
-    );
+    return this.studentsService.updateSubjectScore(id, subjectName, newScore.score);
   }
 
   @Delete(':id/subjects/:subjectName')
-  removeSubject(
-    @Param('id') id: string,
-    @Param('subjectName') subjectName: string,
-  ) {
+  removeSubject(@Param('id') id: string, @Param('subjectName') subjectName: string) {
     return this.studentsService.removeSubject(id, subjectName);
   }
 }
